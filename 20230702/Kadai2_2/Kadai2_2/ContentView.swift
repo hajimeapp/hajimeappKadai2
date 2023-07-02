@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var textList = ["", ""]
-    @State var resultNumber: Int?
+    @State var resultNumber: Double?
     @State var statement = "Label"
     @State var operation = 0
     var body: some View {
@@ -33,6 +33,7 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                     Button {
                         calculate()
+                        avoidEmpty()
                     } label: {
                         Text("Button")
                             .padding(5.0)
@@ -56,8 +57,8 @@ struct ContentView: View {
     }
     
     func calculate() {
-        let upperNumber = Int(textList[0]) ?? 0
-        let lowerNumber = Int(textList[1]) ?? 0
+        let upperNumber = Double(textList[0]) ?? 0.0
+        let lowerNumber = Double(textList[1]) ?? 0.0
         if operation == 0 {
             resultNumber = upperNumber + lowerNumber
         } else if operation == 1 {
@@ -72,8 +73,17 @@ struct ContentView: View {
                 resultNumber = upperNumber / lowerNumber
             }
         }
-        
     }
+    
+    func avoidEmpty() {
+        if textList[0] == "" {
+            textList[0] = "0"
+        }
+        if textList[1] == "" {
+            textList[1] = "0"
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
