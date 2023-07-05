@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var textList = ["", ""]
-    @State var resultNumber: Double?
-    @State var statement = "Label"
+    @State var resultText: String = "Label"
     @State var operation = 0
     var body: some View {
         VStack{
@@ -42,13 +41,8 @@ struct ContentView: View {
                 .padding(.leading, 80)
                 .padding(.trailing, 130)
                 HStack {
-                    if let resultNumber = resultNumber {
-                        Text(String(resultNumber))
-                            .padding(.leading, 15)
-                    } else {
-                        Text(statement)
-                            .padding(.leading, 15)
-                    }
+                    Text(String(resultText))
+                        .padding(.leading, 15)
                     Spacer()
                 }
             }
@@ -59,19 +53,22 @@ struct ContentView: View {
     func calculate() {
         let upperNumber = Double(textList[0]) ?? 0.0
         let lowerNumber = Double(textList[1]) ?? 0.0
-        if operation == 0 {
-            resultNumber = upperNumber + lowerNumber
-        } else if operation == 1 {
-            resultNumber = upperNumber - lowerNumber
-        } else if operation == 2 {
-            resultNumber = upperNumber * lowerNumber
-        } else {
+
+        switch operation {
+        case 0:
+            resultText = String(upperNumber + lowerNumber)
+        case 1:
+            resultText = String(upperNumber - lowerNumber)
+        case 2:
+            resultText = String(upperNumber * lowerNumber)
+        case 3:
             if lowerNumber == 0 {
-                resultNumber = nil
-                statement = "割る数には0以外を入力して下さい"
+                resultText = "割る数には0以外を入力して下さい"
             } else {
-                resultNumber = upperNumber / lowerNumber
+                resultText = String(upperNumber / lowerNumber)
             }
+        default:
+            fatalError("operation is invalid.")
         }
     }
     
